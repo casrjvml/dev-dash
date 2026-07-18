@@ -1,6 +1,10 @@
 # Bibliotecas
 from shiny import App, render, ui
 import pandas as pd 
+import matplotlib
+from shinywidgets import render_plotly, output_widget 
+import plotly.express as px
+
 
 # Dados
 
@@ -20,8 +24,8 @@ app_ui = ui.page_navbar(
    ui.nav_panel(
        "Gráficos",
        ui.layout_columns(
-           ui.card(ui.output_plot("gráfico1")),
-           ui.card("Gráfico interativo")
+           ui.card(ui.output_plot("grafico1")),
+           ui.card(output_widget("grafico2"))
            )    
        ), 
    title= "Visualização de Dados"
@@ -32,6 +36,11 @@ def server(input, output, session):
     @render.plot
     def grafico1():
         return dados.set_index("data").plot()
+    
+    @render_plotly
+    def grafico2():
+        return px.line(dados, x = "data", y = "valor")
+
     
 
 # Shiny Dashboard
