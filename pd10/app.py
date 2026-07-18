@@ -20,7 +20,7 @@ app_ui = ui.page_navbar(
    ui.nav_panel(
        "Gráficos",
        ui.layout_columns(
-           ui.card("Gráfico estático"),
+           ui.card(ui.output_plot("gráfico1")),
            ui.card("Gráfico interativo")
            )    
        ), 
@@ -29,7 +29,10 @@ app_ui = ui.page_navbar(
 
 # Servidor
 def server(input, output, session):
-    ...
+    @render.plot
+    def grafico1():
+        return dados.set_index("data").plot()
+    
 
 # Shiny Dashboard
 app = App(app_ui, server)
